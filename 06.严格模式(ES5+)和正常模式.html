@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- 
+    JS分为两种模式:
+      1. 正常模式(混杂模型)
+
+      2. 严格模式
+        (1) 变量必须先声明后使用, 不能没有声明就赋值
+        (2) this不能指向window,以免因为使用不当, 给window扩展了不该有的属性, 即声明了无用的全局变量,导致全局变量污染问题
+        (3) 使用eval函数时, eval中用var声明变量, 不是全局变量, 而是eval函数的局部变量
+        (4) 严格模式下, arguments,callee,caller都不能用
+            fn.arguments: 函数被调用时, 获取传入的实参对象
+            arguments.callee: 返回函数本身
+            fn.caller:  返回在哪个函数中调用
+
+   -->
+
+  <script>
+    // 'use strict' //开启严格模式(在全局或者函数内部, 第一行写上 'use strict'即可开启)
+
+    // a = 1; //没有声明, 直接赋值
+    // console.log(a); //严格模式下: a is not defined
+
+    /* var a = 1;
+    function fn(){
+      // 'use strict' 
+      console.log(this.a); //开启严格模式时, 函数中的this, 如果指向window, 表示是undefined
+    }
+    fn(); */
+
+    /* var a = 2;
+    eval('var a = 1; console.log(a)')  //1  (输出的是eval函数局部的变量a的值)
+    console.log(a); //2 (输出的是全局变量a的值) */
+
+    function fn(){
+      console.log(arguments); //(正常模式和严格模式下都可以获取到传入的实参对象)
+      console.log(fn.arguments); //(正常模式下可以获取到, 严格模式下会报错)
+      console.log(arguments.callee); //(严格模式下,报错)
+      console.log(fn.caller); //(严格模式下,报错)
+    }
+    // fn(1);
+    (function(){
+      fn()
+    })()
+
+  </script>
+</body>
+
+</html>
